@@ -21,7 +21,7 @@ async function getUploadUrl() {
             Authorization: `Bearer ${process.env.MEDIA_API_KEY}`,
             "Content-Type": "application/json",
           },
-        })
+        }).then((res) => res.json())
       );
 
     if (response.error) {
@@ -40,14 +40,6 @@ export const uploadFile = async (file: File | Blob) => {
     // Step 1: Get the upload URL
     const { uploadUrl } = await getUploadUrl();
 
-    // Step 2: Calculate file hash for integrity check
-    const fileArrayBuffer = await file.arrayBuffer();
-    const hashBuffer = await crypto.subtle.digest("SHA-256", fileArrayBuffer);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray
-      .map((b) => b.toString(16).padStart(2, "0"))
-      .join("");
-
     // Step 3: Upload the file
     const response = z
       .object({
@@ -58,7 +50,6 @@ export const uploadFile = async (file: File | Blob) => {
           method: "POST",
           headers: {
             "Content-Type": file.type,
-            Digest: `sha-256=${hashHex}`,
           },
           body: file,
         }).then((res) => res.json())
