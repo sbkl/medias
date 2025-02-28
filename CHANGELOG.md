@@ -1,5 +1,11 @@
 # @sbkl/medias
 
+## 0.0.9
+
+### Patch Changes
+
+- b362ac0: test
+
 ## 0.0.8
 
 ### Patch Changes
