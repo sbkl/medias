@@ -1,5 +1,11 @@
 # @sbkl/medias
 
+## 0.0.8
+
+### Patch Changes
+
+- 0a1504a: directives
+
 ## 0.0.7
 
 ### Patch Changes
