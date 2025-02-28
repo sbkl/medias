@@ -1,5 +1,11 @@
 # @sbkl/medias
 
+## 0.0.10
+
+### Patch Changes
+
+- 0f6526d: try
+
 ## 0.0.9
 
 ### Patch Changes
