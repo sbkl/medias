@@ -14,7 +14,7 @@ async function getUploadUrl() {
         uploadUrl: z.string(),
       })
       .safeParse(
-        await fetch(`${process.env.CONVEX_URL}/upload-url`, {
+        await fetch(`${process.env.MEDIA_UPLOAD_URL}/upload-url`, {
           method: "POST",
           headers: {
             "X-Api-Key-Id": process.env.MEDIA_APP_ID,
