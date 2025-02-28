@@ -1,5 +1,3 @@
-"use server";
-
 import { zid } from "convex-helpers/server/zod";
 import { z } from "zod";
 

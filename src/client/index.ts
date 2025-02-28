@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { uploadFile } from "../server";
 import { useProgress } from "../hooks/use-progress";
