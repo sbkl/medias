@@ -1,5 +1,11 @@
 # @sbkl/medias
 
+## 0.0.4
+
+### Patch Changes
+
+- cd4ff8e: README
+
 ## 0.0.3
 
 ### Patch Changes
