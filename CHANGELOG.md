@@ -1,5 +1,11 @@
 # @sbkl/medias
 
+## 0.0.3
+
+### Patch Changes
+
+- df97821: changeset release script
+
 ## 0.0.2
 
 ### Patch Changes
