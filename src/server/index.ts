@@ -1,7 +1,9 @@
+"use server";
+
 import { zid } from "convex-helpers/server/zod";
 import { z } from "zod";
 
-export async function getUploadUrl() {
+async function getUploadUrl() {
   try {
     if (!process.env.MEDIA_APP_ID || !process.env.MEDIA_API_KEY) {
       throw new Error("Missing required environment variables");
@@ -12,7 +14,7 @@ export async function getUploadUrl() {
         uploadUrl: z.string(),
       })
       .safeParse(
-        await fetch(`${process.env.NEXT_PUBLIC_CONVEX_URL}/upload-url`, {
+        await fetch(`${process.env.CONVEX_URL}/upload-url`, {
           method: "POST",
           headers: {
             "X-Api-Key-Id": process.env.MEDIA_APP_ID,
@@ -33,7 +35,7 @@ export async function getUploadUrl() {
   }
 }
 
-export async function uploadFile(file: File | Blob) {
+export const uploadFile = async (file: File | Blob) => {
   try {
     // Step 1: Get the upload URL
     const { uploadUrl } = await getUploadUrl();
@@ -71,4 +73,4 @@ export async function uploadFile(file: File | Blob) {
     console.error("Error uploading file:", error);
     throw error;
   }
-}
+};

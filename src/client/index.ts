@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { uploadFile } from "../server";
 import { useProgress } from "../hooks/use-progress";
@@ -36,35 +38,18 @@ export function useUploadFile(options: UseUploadFileOptions = {}) {
         // Start the progress animation
         progress.start();
 
-        startTransition(() => {
-          uploadFile(file)
-            .then((storageId) => {
-              // Complete the progress animation
-              progress.done();
+        const storageId = await uploadFile(file);
 
-              setState((prev) => ({
-                ...prev,
-                isUploading: false,
-                storageId,
-              }));
+        // Complete the progress animation
+        progress.done();
 
-              options.onSuccess?.(storageId);
-            })
-            .catch((error) => {
-              const uploadError =
-                error instanceof Error ? error : new Error("Upload failed");
+        setState((prev) => ({
+          ...prev,
+          isUploading: false,
+          storageId,
+        }));
 
-              // Reset progress on error
-              progress.reset();
-
-              setState((prev) => ({
-                ...prev,
-                isUploading: false,
-                error: uploadError,
-              }));
-              options.onError?.(uploadError);
-            });
-        });
+        options.onSuccess?.(storageId);
       } catch (error) {
         const uploadError =
           error instanceof Error ? error : new Error("Upload failed");
@@ -80,7 +65,7 @@ export function useUploadFile(options: UseUploadFileOptions = {}) {
         options.onError?.(uploadError);
       }
     },
-    [options, progress, startTransition]
+    [options, progress]
   );
 
   const reset = React.useCallback(() => {
