@@ -24,17 +24,10 @@ export default defineConfig([
     minify: true,
     splitting: false,
     treeshake: true,
-    async onSuccess() {
-      // Add "use client" to both client and hooks directories in dist
-      await addDirectiveToFiles("dist/client", '"use client";');
-      if (
-        await fs
-          .access("dist/hooks")
-          .then(() => true)
-          .catch(() => false)
-      ) {
-        await addDirectiveToFiles("dist/hooks", '"use client";');
-      }
+    esbuildOptions(options) {
+      options.banner = {
+        js: '"use client"',
+      };
     },
     external: ["react", "next", "react-dom"],
   },
@@ -48,8 +41,10 @@ export default defineConfig([
     minify: true,
     splitting: false,
     treeshake: true,
-    async onSuccess() {
-      await addDirectiveToFiles("dist/server", '"use server";');
+    esbuildOptions(options) {
+      options.banner = {
+        js: '"use server"',
+      };
     },
     external: ["react", "next", "react-dom"],
   },
