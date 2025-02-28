@@ -1,5 +1,0 @@
----
-"@sbkl/medias": patch
----
-
-ok
