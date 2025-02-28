@@ -8,7 +8,7 @@ const addDirectiveToFiles = async (directory: string, directive: string) => {
     const filePath = path.join(directory, file.toString());
     if (filePath.endsWith(".js") || filePath.endsWith(".mjs")) {
       const content = await fs.readFile(filePath, "utf8");
-      await fs.writeFile(filePath, `${directive}\n${content}`);
+      await fs.writeFile(filePath, `${directive}${content}`);
     }
   }
 };
@@ -29,6 +29,18 @@ export default defineConfig([
         js: '"use client"',
       };
     },
+    async onSuccess() {
+      // Add "use client" to both client and hooks directories in dist
+      await addDirectiveToFiles("dist/client", "'use client';");
+      if (
+        await fs
+          .access("dist/hooks")
+          .then(() => true)
+          .catch(() => false)
+      ) {
+        await addDirectiveToFiles("dist/hooks", "'use client';");
+      }
+    },
     external: ["react", "next", "react-dom"],
   },
   {
@@ -41,10 +53,8 @@ export default defineConfig([
     minify: true,
     splitting: false,
     treeshake: true,
-    esbuildOptions(options) {
-      options.banner = {
-        js: '"use server"',
-      };
+    async onSuccess() {
+      await addDirectiveToFiles("dist/server", "'use server';");
     },
     external: ["react", "next", "react-dom"],
   },
